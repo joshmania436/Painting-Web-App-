@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Painting App</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
+    <!-- <script src="js/p5.play.js"></script> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/firebase@6.1.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
+
+
+     <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyBUQPjdIpre56API373KPgZhE3UqNqWAAw",
+        authDomain: "painting-web-app.firebaseapp.com",
+        databaseURL: "https://painting-web-app.firebaseio.com",
+        projectId: "painting-web-app",
+        storageBucket: "painting-web-app.appspot.com",
+        messagingSenderId: "710439866876",
+        appId: "1:710439866876:web:7b58391339b9463e5ca279"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8" />
+
+</head>
+
+<body>
+  <div id="canvasContainer"></div>
+
+  <script src="sketch.js"></script>
+
+  <p>
+    <button id="clearButton">Clear</button>
+  </p>
+</body>
+
+</html>
