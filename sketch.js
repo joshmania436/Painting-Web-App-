@@ -4,13 +4,16 @@ var isDrawing = false;
 var database;
 
 function setup() {
-    canvas = createCanvas(500, 500);
+    canvas = createCanvas(1200, 500);
     canvas.mousePressed(startPath);
     canvas.parent('canvasContainer');
     canvas.mouseReleased(endPath);
 
-    var clearButton = select('#clearButton');
+ var clearButton = select('#clearButton');
     clearButton.mousePressed(clearDrawing);
+
+    var saveButton = select('#saveButton');
+  saveButton.mousePressed(saveDrawing);
 
     database = firebase.database();
 
@@ -29,7 +32,8 @@ function endPath() {
 }
 
 function draw() {
-    background("powderblue");
+    background("black");
+    //console.log("drawing");
 
     if (isDrawing) {
         var point = {
@@ -40,7 +44,7 @@ function draw() {
     }
 
     stroke("white");
-    strokeWeight(4);
+    strokeWeight(5);
     noFill();
 
     for (var i = 0; i < drawing.length; i++) {
@@ -53,20 +57,32 @@ function draw() {
     }
 }
 
-function gotData() {
+function gotData(data) {
+    // clear the listing
+    var elts = selectAll('.listing');
+    for (var i = 0; i < elts.length; i++) {
+      elts[i].remove();
+    }
+  
     var drawings = data.val();
     var keys = Object.keys(drawings);
-
     for (var i = 0; i < keys.length; i++) {
-        var key = keys[i];
-        // console.log(key);
-        var hi = createElement('li', '');
-        var ahref = createA('#', key);
-        ahref.mousePressed(showDrawing);
-        ahref.parent(li);
-        hi.parent('drawing');
+      var key = keys[i];
+      //console.log(key);
+      var li = createElement('li', '');
+      li.class('listing');
+      var ahref = createA('#', key);
+      ahref.mousePressed(showDrawing);
+      ahref.parent(li);
+  
+      var perma = createA('?id=' + key, 'permalink');
+      perma.parent(li);
+      perma.style('padding', '4px');
+  
+      li.parent('drawinglist');
     }
-}
+  }
+  
 
 function errorData(error) {
     console.log(error);
@@ -75,10 +91,29 @@ function errorData(error) {
 function showDrawing() {
     var key = this.html();
     var ref = database.ref('database/' + key);
-    ref.on('value')
+    ref.on('value',oneDrawing, errorData)
     console.log(this.html());
+}
+
+function oneDrawing(){
+    var drawing =data.val();
+    console.log(drawing);
 }
 
 function clearDrawing() {
     drawing = [];
+}
+
+function saveDrawing(){
+var ref =database.ref('drawing');
+var data ={
+    name:"Josh",
+    drawing:drawing
+}
+ var result =ref.push(data, dataSent);
+ console.log(result.key)
+
+function dataSent(status){
+  console.log(status) 
+}
 }
